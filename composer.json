@@ -1,4 +1,18 @@
 {
+    "name": "lneicelis/queue-bundle",
+    "description": "The Illuminate Queue package.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lukas Neicelis",
+            "email": "l.neicelis@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lneicelis\\QueueBundle\\": ""
+        }
+    },
     "require": {
         "illuminate/events": "^5.4",
         "illuminate/queue": "^5.4",
