@@ -8,14 +8,12 @@ require 'vendor/autoload.php';
 
 class Job {}
 
+$config = require_once 'config.php';
+
 $container = new Container();
 
-$container->singleton('config', function () {
-    $databaseConfig = require_once 'config.php';
-
-    return new \Illuminate\Config\Repository([
-        'database' => $databaseConfig,
-    ]);
+$container->singleton('config', function () use ($config) {
+    return new \Illuminate\Config\Repository($config);
 });
 
 $container->singleton('db.factory', function (Container $app) {
@@ -38,12 +36,11 @@ $dbManager->availableDrivers();
 
 $queue = new \Illuminate\Queue\Capsule\Manager($container);
 
-$queue->addConnection([
-    'driver' => 'database',
-    'table' => 'jobs',
-    'queue' => 'default',
-    'retry_after' => 90,
-]);
+$defaultConnectionName = $config['queue']['default'];
+
+$defaultConnectionConfig = $config['queue']['connections'][$defaultConnectionName];
+
+$queue->addConnection($defaultConnectionConfig);
 
 $queue->setAsGlobal();
 
