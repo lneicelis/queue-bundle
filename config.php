@@ -14,7 +14,7 @@ return [
         | Supported: "sync", "database", "beanstalkd", "sqs", "redis", "null"
         |
         */
-        'default' => 'sync',
+        'default' => 'database',
 
         /*
         |--------------------------------------------------------------------------
@@ -29,6 +29,9 @@ return [
         'connections' => [
             'sync' => [
                 'driver' => 'database',
+                'table' => 'queue_jobs',
+                'queue' => 'default',
+                'retry_after' => 90,
             ],
             'database' => [
                 'driver' => 'database',

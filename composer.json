@@ -17,6 +17,7 @@
         "illuminate/events": "^5.4",
         "illuminate/queue": "^5.4",
         "illuminate/database": "^5.4",
-        "illuminate/config": "^5.4"
+        "illuminate/config": "^5.4",
+        "illuminate/bus": "^5.4"
     }
 }
