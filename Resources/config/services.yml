@@ -1,0 +1,20 @@
+services:
+  lneicelis_queue.service.illuminate_container:
+      class: Lneicelis\QueueBundle\Service\IlluminateContainer
+
+  lneicelis_queue.service.queue:
+      class: MarketBundle\Repository\TransferRepository
+      factory: ['@lneicelis_queue.factory.illuminate_service', getService]
+      arguments:
+          - 'queue'
+
+  lneicelis_queue.service.queue_worker:
+      class: MarketBundle\Repository\TransferRepository
+      factory: ['@lneicelis_queue.factory.illuminate_service', getService]
+      arguments:
+          - 'queue.worker'
+
+  lneicelis_queue.factory.illuminate_service:
+      class: Lneicelis\QueueBundle\Factory\IlluminateContainerServiceFactory
+      calls:
+          - '@lneicelis_queue.service.illuminate_container'
