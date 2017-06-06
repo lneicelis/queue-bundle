@@ -96,9 +96,8 @@ foreach ($providerClasses as $providerClass) {
 $queue  = $container['queue'];
 $worker = $container['queue.worker'];
 
-$queue->push(new Job());
+//$queue->push(new Job());
 
 $worker->runNextJob('database', 'default', new \Illuminate\Queue\WorkerOptions());
-
 
 

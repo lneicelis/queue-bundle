@@ -13,11 +13,20 @@
             "Lneicelis\\QueueBundle\\": ""
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Lneicelis\\QueueBundle\\": "tests/"
+        }
+    },
     "require": {
-        "illuminate/events": "^5.4",
-        "illuminate/queue": "^5.4",
-        "illuminate/database": "^5.4",
-        "illuminate/config": "^5.4",
-        "illuminate/bus": "^5.4"
+        "symfony/framework-bundle": "~2.1|~3.0",
+        "illuminate/events": "^5.0",
+        "illuminate/queue": "^5.0",
+        "illuminate/database": "^5.0",
+        "illuminate/config": "^5.0",
+        "illuminate/bus": "^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
     }
 }
