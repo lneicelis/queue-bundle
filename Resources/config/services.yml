@@ -1,20 +1,20 @@
 services:
+  lneicelis_queue.factory.illuminate_container:
+      class: Lneicelis\QueueBundle\Factory\IlluminateContainerFactory
+      # TODO: inject config & exception handler
+
   lneicelis_queue.service.illuminate_container:
-      class: Lneicelis\QueueBundle\Service\IlluminateContainer
+      class: Illuminate\Contracts\Container\Container
+      factory: ['@lneicelis_queue.factory.illuminate_container', getContainer]
 
   lneicelis_queue.service.queue:
-      class: MarketBundle\Repository\TransferRepository
-      factory: ['@lneicelis_queue.factory.illuminate_service', getService]
+      class: Illuminate\Contracts\Queue\Queue
+      factory: ['@lneicelis_queue.service.illuminate_container', make]
       arguments:
           - 'queue'
 
   lneicelis_queue.service.queue_worker:
-      class: MarketBundle\Repository\TransferRepository
-      factory: ['@lneicelis_queue.factory.illuminate_service', getService]
+      class: Illuminate\Queue\Worker
+      factory: ['@lneicelis_queue.service.illuminate_container', make]
       arguments:
           - 'queue.worker'
-
-  lneicelis_queue.factory.illuminate_service:
-      class: Lneicelis\QueueBundle\Factory\IlluminateContainerServiceFactory
-      calls:
-          - '@lneicelis_queue.service.illuminate_container'
