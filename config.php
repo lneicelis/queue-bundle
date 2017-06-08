@@ -29,13 +29,13 @@ return [
         'connections' => [
             'sync' => [
                 'driver' => 'database',
-                'table' => 'queue_jobs',
+                'table' => 'queue_job',
                 'queue' => 'default',
                 'retry_after' => 90,
             ],
             'database' => [
                 'driver' => 'database',
-                'table' => 'queue_jobs',
+                'table' => 'queue_job',
                 'queue' => 'default',
                 'retry_after' => 90,
             ],
@@ -110,9 +110,9 @@ return [
                 'driver' => 'mysql',
                 'host' => '127.0.0.1',
                 'port' => '3306',
-                'database' => 'account_market',
-                'username' => 'account_market',
-                'password' => 'account_market',
+                'database' => 'queue_bundle',
+                'username' => 'homestead',
+                'password' => 'secret',
                 'unix_socket' => '',
                 'charset' => 'utf8mb4',
                 'collation' => 'utf8mb4_unicode_ci',
