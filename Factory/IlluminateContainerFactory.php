@@ -7,11 +7,17 @@ use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Queue\QueueServiceProvider;
 use Lneicelis\QueueBundle\Application;
+use Lneicelis\QueueBundle\BusDispatcher;
+use Illuminate\Contracts\Bus\Dispatcher as DispatcherContract;
+use Illuminate\Contracts\Queue\Factory as QueueFactoryContract;
+use Illuminate\Contracts\Bus\QueueingDispatcher as QueueingDispatcherContract;
+
 
 class IlluminateContainerFactory
 {
@@ -22,7 +28,7 @@ class IlluminateContainerFactory
         CacheServiceProvider::class,
         QueueServiceProvider::class,
         EventServiceProvider::class,
-        BusServiceProvider::class,
+//        BusServiceProvider::class,
     ];
 
     public function __construct(array $config, ExceptionHandler $exceptionHandler)
@@ -39,10 +45,28 @@ class IlluminateContainerFactory
     {
         $container = new Application();
 
+        foreach ($this->providerClasses as $providerClass) {
+            $provider = new $providerClass($container);
+
+            $provider->register();
+        }
+
         $container->singleton('config', function () use ($config) {
             return new Repository($config);
         });
 
+        $this->registerDatabase($container);
+        $this->registerBus($container);
+
+        $container->bind(ExceptionHandler::class, function (Container $app) use ($exceptionHandler) {
+            return $exceptionHandler;
+        });
+
+        return $container;
+    }
+
+    protected function registerDatabase(Container $container)
+    {
         $container->singleton('db.factory', function (Container $app) {
             return new ConnectionFactory($app);
         });
@@ -54,17 +78,22 @@ class IlluminateContainerFactory
         $container->bind('db.connection', function (Container $app) {
             return $app['db']->connection();
         });
+    }
 
-        $container->bind(ExceptionHandler::class, function (Container $app) use ($exceptionHandler) {
-            return $exceptionHandler;
+    protected function registerBus(Container $container)
+    {
+        $container->singleton(BusDispatcher::class, function ($app) {
+            return new BusDispatcher($app, function ($connection = null) use ($app) {
+                return $app[QueueFactoryContract::class]->connection($connection);
+            });
         });
 
-        foreach ($this->providerClasses as $providerClass) {
-            $provider = new $providerClass($container);
+        $container->alias(
+            BusDispatcher::class, DispatcherContract::class
+        );
 
-            $provider->register();
-        }
-
-        return $container;
+        $container->alias(
+            BusDispatcher::class, QueueingDispatcherContract::class
+        );
     }
 }
