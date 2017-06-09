@@ -4,6 +4,7 @@ namespace Lneicelis\QueueBundle;
 
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\Arr;
+use Lneicelis\QueueBundle\Contract\JobHandlerContract;
 
 class BusDispatcher extends Dispatcher
 {
