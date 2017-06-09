@@ -73,7 +73,7 @@ return [
         */
         'failed' => [
             'database' => 'mysql',
-            'table'    => 'queue_failed_jobs',
+            'table'    => 'queue_failed_job',
         ],
     ],
 

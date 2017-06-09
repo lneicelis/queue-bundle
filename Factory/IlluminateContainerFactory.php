@@ -28,7 +28,6 @@ class IlluminateContainerFactory
         CacheServiceProvider::class,
         QueueServiceProvider::class,
         EventServiceProvider::class,
-//        BusServiceProvider::class,
     ];
 
     public function __construct(ExceptionHandler $exceptionHandler)
@@ -57,12 +56,17 @@ class IlluminateContainerFactory
             return new Repository($config);
         });
 
+        $container->alias('events', \Illuminate\Contracts\Events\Dispatcher::class);
+
         $this->registerDatabase($container);
         $this->registerBus($container);
+
 
         $container->bind(ExceptionHandler::class, function (Container $app) use ($exceptionHandler) {
             return $exceptionHandler;
         });
+
+        Application::setInstance($container);
 
         return $container;
     }

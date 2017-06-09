@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="queue_job")
  */
-class AbstractJob
+abstract class AbstractJob
 {
     /**
      * @var int|null
