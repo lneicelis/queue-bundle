@@ -38,6 +38,5 @@ class BusDispatcher extends Dispatcher
         foreach ($jobHandlers as $jobHandler) {
             $jobHandler->handle($job);
         }
-        throw new \Exception('LOOOL');
     }
 }
