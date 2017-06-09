@@ -2,12 +2,14 @@
 
 namespace Lneicelis\QueueBundle;
 
+use Lneicelis\QueueBundle\DependencyInjection\JobHandlerCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class LneicelisQueueBundle extends Bundle
 {
-    public function boot()
+    public function build(ContainerBuilder $container)
     {
-        var_dump('hello');
+        $container->addCompilerPass(new JobHandlerCompilerPass());
     }
 }

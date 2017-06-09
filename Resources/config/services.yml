@@ -18,3 +18,9 @@ services:
       factory: ['@lneicelis_queue.service.illuminate_container', make]
       arguments:
           - 'queue.worker'
+
+  lneicelis_queue.service.bus_dispatcher:
+      class: Lneicelis\QueueBundle\BusDispatcher
+      factory: ['@lneicelis_queue.service.illuminate_container', make]
+      arguments:
+        - 'Illuminate\Contracts\Bus\Dispatcher'
