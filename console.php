@@ -17,9 +17,7 @@ class Job {
 }
 
 
-$config = require_once 'config.php';
-
-$containerFactory = new IlluminateContainerFactory($config, new CustomExceptionHandler());
+$containerFactory = new IlluminateContainerFactory(new CustomExceptionHandler());
 $container = $containerFactory->getContainer();
 
 $events = $container['events'];

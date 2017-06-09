@@ -1,7 +1,8 @@
 services:
   lneicelis_queue.factory.illuminate_container:
       class: Lneicelis\QueueBundle\Factory\IlluminateContainerFactory
-      # TODO: inject config & exception handler
+      arguments:
+          - '@lneicelis_queue.service.exception_handler'
 
   lneicelis_queue.service.illuminate_container:
       class: Illuminate\Contracts\Container\Container
@@ -24,3 +25,6 @@ services:
       factory: ['@lneicelis_queue.service.illuminate_container', make]
       arguments:
         - 'Illuminate\Contracts\Bus\Dispatcher'
+
+  lneicelis_queue.service.exception_handler:
+      class: Lneicelis\QueueBundle\CustomExceptionHandler
