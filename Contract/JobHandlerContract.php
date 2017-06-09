@@ -1,6 +1,6 @@
 <?php
 
-namespace Lneicelis\QueueBundle;
+namespace Lneicelis\QueueBundle\Contract;
 
 interface JobHandlerContract
 {
