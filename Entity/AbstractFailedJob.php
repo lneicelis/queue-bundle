@@ -14,9 +14,9 @@ abstract class AbstractFailedJob
      * @var int|null
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\Column(name="id", type="string")
      */
     protected $id;
-
     /**
      * @var string|null
      *

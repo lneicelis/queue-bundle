@@ -14,6 +14,7 @@ abstract class AbstractJob
      * @var int|null
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\Column(name="id", type="string")
      */
     protected $id;
 
@@ -27,7 +28,7 @@ abstract class AbstractJob
     /**
      * @var string|null
      *
-     * @ORM\Column(name="queue", type="text")
+     * @ORM\Column(name="payload", type="text")
      */
     protected $payload;
 
@@ -48,7 +49,7 @@ abstract class AbstractJob
     /**
      * @var int|null
      *
-     * @ORM\Column(name="reserved_at", type="integer")
+     * @ORM\Column(name="available_at", type="integer")
      */
     protected $availableAt;
 
