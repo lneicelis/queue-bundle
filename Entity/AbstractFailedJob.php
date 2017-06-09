@@ -1,6 +1,6 @@
 <?php
 
-namespace Lneicelis\QueueBundle;
+namespace Lneicelis\QueueBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
