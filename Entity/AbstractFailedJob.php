@@ -34,7 +34,7 @@ abstract class AbstractFailedJob
     /**
      * @var string|null
      *
-     * @ORM\Column(name="queue", type="text")
+     * @ORM\Column(name="payload", type="text")
      */
     protected $payload;
 
