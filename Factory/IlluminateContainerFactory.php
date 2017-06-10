@@ -30,10 +30,8 @@ class IlluminateContainerFactory
         EventServiceProvider::class,
     ];
 
-    public function __construct(ExceptionHandler $exceptionHandler)
+    public function __construct(array $config, ExceptionHandler $exceptionHandler)
     {
-        $config = require_once __DIR__.'/../config.php';
-
         $this->container = $this->createContainer($config, $exceptionHandler);
     }
 

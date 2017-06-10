@@ -17,12 +17,12 @@ lneicelis_queue:
         connections:
             sync:
                 driver: database
-                table: queue_jobs
+                table: queue_job
                 queue: default
                 retry_after: 90
             database:
                 driver: database
-                table: queue_jobs
+                table: queue_job
                 queue: default
                 retry_after: 90
             beanstalkd:
@@ -50,7 +50,7 @@ lneicelis_queue:
         # have failed. You may change them to any database / table you wish.
         failed:
             database: mysql
-            table: queue_failed_jobs
+            table: queue_failed_job
 
     database:
         # Default Database Connection Name
