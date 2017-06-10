@@ -12,9 +12,10 @@ abstract class AbstractFailedJob
 {
     /**
      * @var int|null
+     *
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\Column(name="id", type="string")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
     /**
