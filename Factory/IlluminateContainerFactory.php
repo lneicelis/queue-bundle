@@ -34,6 +34,11 @@ class IlluminateContainerFactory
         EventServiceProvider::class,
     ];
 
+    /**
+     * IlluminateContainerFactory constructor.
+     * @param array $config
+     * @param ContainerInterface $container
+     */
     public function __construct(array $config, ContainerInterface $container)
     {
         $this->container = $container;
@@ -45,6 +50,11 @@ class IlluminateContainerFactory
         return $this->illuminateContainer;
     }
 
+    /**
+     * @param array $config
+     * @param ContainerInterface $container
+     * @return Application
+     */
     protected function createContainer(array $config, ContainerInterface $container)
     {
         $exceptionHandler = $container->get('lneicelis_queue.service.exception_handler');
@@ -75,6 +85,9 @@ class IlluminateContainerFactory
         return $app;
     }
 
+    /**
+     * @param Container $container
+     */
     protected function registerDatabase(Container $container)
     {
         $container->singleton('db.factory', function (Container $app) {
@@ -90,6 +103,9 @@ class IlluminateContainerFactory
         });
     }
 
+    /**
+     * @param Container $container
+     */
     protected function registerBus(Container $container)
     {
         $container->singleton(BusDispatcher::class, function ($app) {

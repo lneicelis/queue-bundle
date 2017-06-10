@@ -39,6 +39,11 @@ trait ContainerAwareCommandTrait
     {
         $this->container = $container;
 
+        // By default factory created services are lazy
+        // That means JobHandlers are not added to the bus dispatcher
+        // Until actual service is not requested from the service
+        $container->get('lneicelis_queue.service.bus_dispatcher');
+
         $this->setUp($container);
     }
 }
