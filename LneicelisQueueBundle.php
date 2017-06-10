@@ -2,6 +2,7 @@
 
 namespace Lneicelis\QueueBundle;
 
+use Illuminate\Console\Command;
 use Lneicelis\QueueBundle\DependencyInjection\JobHandlerCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -52,9 +53,15 @@ class LneicelisQueueBundle extends Bundle
                     continue;
                 }
             }
+
             $r = new \ReflectionClass($class);
-            if ($r->isSubclassOf('Symfony\\Component\\Console\\Command\\Command') && !$r->isAbstract()) {
-                $application->add($r->newInstanceWithoutConstructor());
+
+            if ($r->isSubclassOf(Command::class) && !$r->isAbstract()) {
+                /** @var Command $instance */
+                $instance = $r->newInstanceWithoutConstructor();
+                $instance->init($instance->getName());
+
+                $application->add($instance);
             }
         }
     }
