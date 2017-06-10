@@ -3,7 +3,7 @@ services:
       class: Lneicelis\QueueBundle\Factory\IlluminateContainerFactory
       arguments:
           - ~
-          - '@lneicelis_queue.service.exception_handler'
+          - '@service_container'
 
   lneicelis_queue.service.illuminate_container:
       class: Illuminate\Contracts\Container\Container

@@ -21,6 +21,11 @@ class ListenCommand extends IlluminateListenCommand implements ContainerAwareInt
      */
     public function setUp(ContainerInterface $container = null)
     {
+        define('ARTISAN_BINARY', 'bin/console');
+
         $this->laravel = $container->get('lneicelis_queue.service.illuminate_container');
+
+        $listener = $this->laravel['queue.listener'];
+        $this->setOutputHandler($this->listener = $listener);
     }
 }
