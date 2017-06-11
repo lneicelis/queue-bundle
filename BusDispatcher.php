@@ -4,18 +4,18 @@ namespace Lneicelis\QueueBundle;
 
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\Arr;
-use Lneicelis\QueueBundle\Contract\JobHandlerContract;
+use Lneicelis\QueueBundle\Contract\CanHandleJob;
 use Lneicelis\QueueBundle\Exception\NoJobHandlersRegisteredException;
 
 class BusDispatcher extends Dispatcher
 {
-    /** @var JobHandlerContract[] */
+    /** @var CanHandleJob[] */
     protected $jobHandlersByJobClass = [];
 
     /**
-     * @param JobHandlerContract $jobHandler
+     * @param CanHandleJob $jobHandler
      */
-    public function addJobHandler(JobHandlerContract $jobHandler)
+    public function addJobHandler(CanHandleJob $jobHandler)
     {
         $jobClass = $jobHandler->getJobClass();
 
@@ -34,7 +34,7 @@ class BusDispatcher extends Dispatcher
     public function dispatchNow($job, $handler = null)
     {
         $jobClass = get_class($job);
-        /** @var JobHandlerContract[] $jobHandlers */
+        /** @var CanHandleJob[] $jobHandlers */
         $jobHandlers = Arr::get($this->jobHandlersByJobClass, $jobClass, []);
 
         if (empty($jobHandlers)) {
