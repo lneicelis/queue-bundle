@@ -2,10 +2,11 @@
 
 namespace Lneicelis\QueueBundle\Contract;
 
-interface JobHandlerContract
+interface CanHandleJob
 {
+
     public function getJobClass(): string;
 
-    public function handle($job);
+    public function handleJob($job);
 
 }

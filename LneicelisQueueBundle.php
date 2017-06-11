@@ -16,15 +16,16 @@ class LneicelisQueueBundle extends Bundle
         $container->addCompilerPass(new JobHandlerCompilerPass());
     }
 
+    public function boot()
+    {
+        // By default factory created services are lazy
+        // That means JobHandlers are not added to the bus dispatcher
+        // Until actual service is not requested from the service
+        $this->container->get('lneicelis_queue.service.bus_dispatcher');
+    }
+
     /**
-     * Finds and registers Commands.
-     *
-     * Override this method if your bundle commands do not follow the conventions:
-     *
-     * * Commands are in the 'Command' sub-directory
-     * * Commands extend Symfony\Component\Console\Command\Command
-     *
-     * @param Application $application An Application instance
+     * {@inheritdoc}
      */
     public function registerCommands(Application $application)
     {

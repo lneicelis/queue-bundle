@@ -1,11 +1,11 @@
 # QueueBundle
-Light wrapper of 
+Thin wrapper of 
 [laravel queue package](https://laravel.com/docs/5.4/queues)
-for symfony applications
+for Symfony 3 applications
 ## Features
 * Seamless integration
 * Driver agnostic API
-* Command Line Interface for manage the queues
+* Command Line Interface for queues management
 * Multiple drivers (sync, database, beanstalkd, sqs, redis, null)
 * Multiple queues
 * Job scheduling
