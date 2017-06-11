@@ -44,7 +44,7 @@ class BusDispatcher extends Dispatcher
         }
 
         foreach ($jobHandlers as $jobHandler) {
-            $jobHandler->handle($job);
+            $jobHandler->handleJob($job);
         }
     }
 }

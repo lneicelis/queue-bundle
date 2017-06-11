@@ -9,11 +9,15 @@ services:
       class: Illuminate\Contracts\Container\Container
       factory: ['@lneicelis_queue.factory.illuminate_container', getContainer]
 
-  lneicelis_queue.service.queue:
+  lneicelis_queue.service.queue_manager:
       class: Illuminate\Contracts\Queue\Queue
       factory: ['@lneicelis_queue.service.illuminate_container', make]
       arguments:
           - 'queue'
+
+  lneicelis_queue.service.queue:
+      class: Illuminate\Contracts\Queue\Queue
+      factory: ['@lneicelis_queue.service.queue_manager', connection]
 
   lneicelis_queue.service.queue_worker:
       class: Illuminate\Queue\Worker
