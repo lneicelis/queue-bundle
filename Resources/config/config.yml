@@ -16,10 +16,7 @@ lneicelis_queue:
         # for each back-end shipped with Laravel. You are free to add more.
         connections:
             sync:
-                driver: database
-                table: queue_job
-                queue: default
-                retry_after: 90
+                driver: sync
             database:
                 driver: database
                 table: queue_job

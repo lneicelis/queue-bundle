@@ -46,9 +46,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('connections')->children()
                     ->arrayNode('sync')->children()
                         ->scalarNode('driver')->end()
-                        ->scalarNode('table')->end()
-                        ->scalarNode('queue')->end()
-                        ->integerNode('retry_after')->end()
                     ->end()->end()
 
                     ->arrayNode('database')->children()
