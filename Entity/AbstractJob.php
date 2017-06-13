@@ -1,6 +1,6 @@
 <?php
 
-namespace Lneicelis\QueueBundle;
+namespace Lneicelis\QueueBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,12 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="queue_job")
  */
-class AbstractJob
+abstract class AbstractJob
 {
     /**
      * @var int|null
+     *
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -27,7 +29,7 @@ class AbstractJob
     /**
      * @var string|null
      *
-     * @ORM\Column(name="queue", type="text")
+     * @ORM\Column(name="payload", type="text")
      */
     protected $payload;
 
@@ -48,7 +50,7 @@ class AbstractJob
     /**
      * @var int|null
      *
-     * @ORM\Column(name="reserved_at", type="integer")
+     * @ORM\Column(name="available_at", type="integer")
      */
     protected $availableAt;
 

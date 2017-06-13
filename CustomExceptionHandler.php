@@ -21,7 +21,7 @@ class CustomExceptionHandler implements ExceptionHandler {
      */
     public function report(Exception $e)
     {
-        var_dump($e->getMessage());
+        var_dump('report', $e->getMessage());
         // TODO: Implement report() method.
     }
 
@@ -34,7 +34,7 @@ class CustomExceptionHandler implements ExceptionHandler {
      */
     public function render($request, Exception $e)
     {
-        var_dump($e->getMessage());
+        var_dump('render', $e->getMessage());
         // TODO: Implement render() method.
     }
 
@@ -47,7 +47,7 @@ class CustomExceptionHandler implements ExceptionHandler {
      */
     public function renderForConsole($output, Exception $e)
     {
-        var_dump($e->getMessage());
+        var_dump('renderForConsole', $e->getMessage());
         // TODO: Implement renderForConsole() method.
     }
 }

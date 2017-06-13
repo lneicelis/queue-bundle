@@ -4,10 +4,10 @@ namespace Lneicelis\QueueBundle\Command;
 
 use Illuminate\Console\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Illuminate\Queue\Console\WorkCommand as IlluminateWorkCommand;
+use Illuminate\Queue\Console\ForgetFailedCommand as IlluminateForgetFailedCommand;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class WorkCommand extends IlluminateWorkCommand implements ContainerAwareInterface
+class ForgetFailedCommand extends IlluminateForgetFailedCommand implements ContainerAwareInterface
 {
     use ContainerAwareCommandTrait;
 
@@ -21,7 +21,6 @@ class WorkCommand extends IlluminateWorkCommand implements ContainerAwareInterfa
      */
     public function setUp(ContainerInterface $container = null)
     {
-        $this->worker = $container->get('lneicelis_queue.service.queue_worker');
         $this->laravel = $container->get('lneicelis_queue.service.illuminate_container');
     }
 }

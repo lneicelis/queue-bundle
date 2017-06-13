@@ -17,54 +17,77 @@ use Lneicelis\QueueBundle\BusDispatcher;
 use Illuminate\Contracts\Bus\Dispatcher as DispatcherContract;
 use Illuminate\Contracts\Queue\Factory as QueueFactoryContract;
 use Illuminate\Contracts\Bus\QueueingDispatcher as QueueingDispatcherContract;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 class IlluminateContainerFactory
 {
-    /** @var \Illuminate\Contracts\Container\Container */
+    /** @var ContainerInterface */
     protected $container;
+
+    /** @var \Illuminate\Contracts\Container\Container */
+    protected $illuminateContainer;
 
     protected $providerClasses = [
         CacheServiceProvider::class,
         QueueServiceProvider::class,
         EventServiceProvider::class,
-//        BusServiceProvider::class,
     ];
 
-    public function __construct(array $config, ExceptionHandler $exceptionHandler)
+    /**
+     * IlluminateContainerFactory constructor.
+     * @param array $config
+     * @param ContainerInterface $container
+     */
+    public function __construct(array $config, ContainerInterface $container)
     {
-        $this->container = $this->createContainer($config, $exceptionHandler);
+        $this->container = $container;
+        $this->illuminateContainer = $this->createContainer($config, $container);
     }
 
     public function getContainer()
     {
-        return $this->container;
+        return $this->illuminateContainer;
     }
 
-    protected function createContainer(array $config, ExceptionHandler $exceptionHandler)
+    /**
+     * @param array $config
+     * @param ContainerInterface $container
+     * @return Application
+     */
+    protected function createContainer(array $config, ContainerInterface $container)
     {
-        $container = new Application();
+        $exceptionHandler = $container->get('lneicelis_queue.service.exception_handler');
+        $app = new Application($config, $container);
 
         foreach ($this->providerClasses as $providerClass) {
-            $provider = new $providerClass($container);
+            $provider = new $providerClass($app);
 
             $provider->register();
         }
 
-        $container->singleton('config', function () use ($config) {
+        $app->singleton('config', function () use ($config) {
             return new Repository($config);
         });
 
-        $this->registerDatabase($container);
-        $this->registerBus($container);
+        $app->alias('events', \Illuminate\Contracts\Events\Dispatcher::class);
 
-        $container->bind(ExceptionHandler::class, function (Container $app) use ($exceptionHandler) {
+        $this->registerDatabase($app);
+        $this->registerBus($app);
+
+
+        $app->bind(ExceptionHandler::class, function (Container $app) use ($exceptionHandler) {
             return $exceptionHandler;
         });
 
-        return $container;
+        Application::setInstance($app);
+
+        return $app;
     }
 
+    /**
+     * @param Container $container
+     */
     protected function registerDatabase(Container $container)
     {
         $container->singleton('db.factory', function (Container $app) {
@@ -80,6 +103,9 @@ class IlluminateContainerFactory
         });
     }
 
+    /**
+     * @param Container $container
+     */
     protected function registerBus(Container $container)
     {
         $container->singleton(BusDispatcher::class, function ($app) {

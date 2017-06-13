@@ -9,9 +9,26 @@
 namespace Lneicelis\QueueBundle;
 
 use Illuminate\Container\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Application extends Container implements \Illuminate\Contracts\Foundation\Application
 {
+    /** @var array */
+    protected $config;
+
+    /** @var ContainerInterface */
+    protected $container;
+
+    /**
+     * @param array $config
+     * @param ContainerInterface $container
+     */
+    public function __construct(array $config, ContainerInterface $container)
+    {
+        $this->config = $config;
+        $this->container = $container;
+    }
+
     /**
      * Get the version number of the application.
      *
@@ -29,7 +46,7 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
      */
     public function basePath()
     {
-        // TODO: Implement basePath() method.
+        return realpath($this->container->getParameter('kernel.root_dir') . '/../');
     }
 
     /**
@@ -127,5 +144,17 @@ class Application extends Container implements \Illuminate\Contracts\Foundation\
     public function getCachedServicesPath()
     {
         // TODO: Implement getCachedServicesPath() method.
+    }
+
+    protected function getPath($path = '')
+    {
+        return realpath($this->basePath() . $path);
+    }
+
+    protected function setPaths()
+    {
+        $this->instance('path.base', $this->basePath());
+        $this->instance('path.public', $this->getPath('/web'));
+        $this->instance('path.storage', $this->getPath('/var/queue'));
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Lneicelis\QueueBundle\Command;
 
+use LogicException;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait ContainerAwareCommandTrait
@@ -36,5 +38,7 @@ trait ContainerAwareCommandTrait
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+
+        $this->setUp($container);
     }
 }

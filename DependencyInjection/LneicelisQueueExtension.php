@@ -24,5 +24,8 @@ class LneicelisQueueExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $factory = $container->getDefinition('lneicelis_queue.factory.illuminate_container');
+        $factory->replaceArgument(0, $config);
     }
 }

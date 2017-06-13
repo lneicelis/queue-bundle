@@ -4,16 +4,18 @@ namespace Lneicelis\QueueBundle;
 
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\Arr;
+use Lneicelis\QueueBundle\Contract\CanHandleJob;
+use Lneicelis\QueueBundle\Exception\NoJobHandlersRegisteredException;
 
 class BusDispatcher extends Dispatcher
 {
-    /** @var JobHandlerContract[] */
-    protected $jobHandlersByJobClass;
+    /** @var CanHandleJob[] */
+    protected $jobHandlersByJobClass = [];
 
     /**
-     * @param JobHandlerContract $jobHandler
+     * @param CanHandleJob $jobHandler
      */
-    public function addJobHandler(JobHandlerContract $jobHandler)
+    public function addJobHandler(CanHandleJob $jobHandler)
     {
         $jobClass = $jobHandler->getJobClass();
 
@@ -27,16 +29,22 @@ class BusDispatcher extends Dispatcher
      * @param mixed $job
      * @param null $handler
      * @return void
+     * @throws NoJobHandlersRegisteredException
      */
     public function dispatchNow($job, $handler = null)
     {
         $jobClass = get_class($job);
-        /** @var JobHandlerContract[] $jobHandlers */
+        /** @var CanHandleJob[] $jobHandlers */
         $jobHandlers = Arr::get($this->jobHandlersByJobClass, $jobClass, []);
 
-        foreach ($jobHandlers as $jobHandler) {
-            $jobHandler->handle($job);
+        if (empty($jobHandlers)) {
+            throw new NoJobHandlersRegisteredException(
+                sprintf('Job class: "%"', $jobClass)
+            );
         }
-        throw new \Exception('LOOOL');
+
+        foreach ($jobHandlers as $jobHandler) {
+            $jobHandler->handleJob($job);
+        }
     }
 }
