@@ -1,4 +1,7 @@
 services:
+  Illuminate\Contracts\Queue\Queue: '@lneicelis_queue.service.queue'
+  Lneicelis\QueueBundle\Contract\QueueContract: '@lneicelis_queue.service.queue'
+
   lneicelis_queue.factory.illuminate_container:
       class: Lneicelis\QueueBundle\Factory\IlluminateContainerFactory
       arguments:
