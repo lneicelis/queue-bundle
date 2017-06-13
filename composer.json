@@ -26,7 +26,6 @@
         "illuminate/config": "^5.0",
         "illuminate/bus": "^5.0",
         "illuminate/cache": "^5.0",
-        "symfony/console": "^3.0",
         "symfony/framework-bundle": "~2.3|~3.0"
     },
     "require-dev": {
