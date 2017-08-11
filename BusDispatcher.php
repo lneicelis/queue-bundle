@@ -39,7 +39,7 @@ class BusDispatcher extends Dispatcher
 
         if (empty($jobHandlers)) {
             throw new NoJobHandlersRegisteredException(
-                sprintf('Job class: "%"', $jobClass)
+                sprintf('No Job Handler Found for class: "%s"', $jobClass)
             );
         }
 
